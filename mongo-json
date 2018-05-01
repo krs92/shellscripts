@@ -1,0 +1,11 @@
+#!/bin/sh
+# assuming mongo bin is in your path
+
+host=YOURMONGOHOST
+port=YOURMONGOPORT
+db=DBYOUWANTTOEXPORT
+
+for c in `mongo --quiet $host:$port/$db --eval 'db.getCollectionNames()' | sed 's/,/ /g'`
+do
+    mongoexport --host $host --port $port -d $db -c $c > $c.json
+done
